@@ -197,7 +197,7 @@ with tab1:
         template="plotly_white",
         height=700,
         width=700,
-        showlegend=False
+        showlegend=False,
         uniformtext_minsize=8,
         uniformtext_mode='show',
         )
