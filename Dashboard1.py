@@ -164,16 +164,17 @@ with tab1:
         names="keterangan_pat",
         values="saldo_akhir_harga",
         title=f"Persediaan per Pabrik Tahun {tahun_terpilih} (Juta)",
+        hoverinfo='label+value',
         hole=0.4
     )
     fig_pie.update_layout(
         margin=dict(l=180, r=20, t=50, b=20),
         legend=dict(
-            orientation="v",
-            y=0.5,
-            yanchor="middle",
-            x=-0.6,
-            xanchor="left"
+            orientation="h",
+            y=0,
+            yanchor="top",
+            x=0.5,
+            xanchor="center"
         ),
         height=700,
         width=700
