@@ -197,7 +197,7 @@ with tab1:
             # Vertikal untuk mobile
             st.plotly_chart(fig_pie.update_layout(height=400), use_container_width=True)
             st.plotly_chart(fig_bar.update_layout(height=400), use_container_width=True)
-        else:
+    else:
             # Dua kolom untuk desktop
             col1, col2 = st.columns(2)
             with col1:
