@@ -196,7 +196,8 @@ with tab1:
         yaxis_title="Saldo Akhir Harga (Juta Rupiah)",
         template="plotly_white",
         height=700,
-        width=700
+        width=700,
+        showlegend=False
         )
     if mode_mobile:
             # Vertikal untuk mobile
