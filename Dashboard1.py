@@ -93,7 +93,7 @@ df_kebijakan_setahun = df_all_KO[
 
 total_ko_min_tahun = df_kebijakan_setahun["ko_minimal"].sum() #/ 1_000_000
 total_ko_maks_tahun = df_kebijakan_setahun["ko_maksimal"].sum() #/ 1_000_000
-total_persediaan_tahun = data_terfilter["saldo_akhir_harga"].sum()
+total_persediaan_tahun = data_akhir_minggu["saldo_akhir_harga"].sum()
 
 
 
@@ -113,7 +113,7 @@ if data_akhir_minggu.empty:
 
 # --- Hitung Data untuk Visualisasi
 
-df_pie_chart1 = data_terfilter.groupby("keterangan_pat", as_index=False)["saldo_akhir_harga"].sum()####
+df_pie_chart1 = data_akhir_minggu.groupby("keterangan_pat", as_index=False)["saldo_akhir_harga"].sum()####
 df_pie_chart1["saldo_akhir_harga"] = df_pie_chart1["saldo_akhir_harga"] / 1_000_000 ####
 
 df_saldo_perbulan = data_akhir_minggu.groupby(["keterangan_pat", "bulan"]).agg({
@@ -136,7 +136,7 @@ df_kebijakan_terpilih = df_all_KO[
 # Hitung total KO dan persediaan
 total_ko_min = df_kebijakan_terpilih["ko_minimal"].sum()
 total_ko_maks = df_kebijakan_terpilih["ko_maksimal"].sum()
-total_persediaan = data_terfilter["saldo_akhir_harga"].sum()
+total_persediaan = data_akhir_minggu["saldo_akhir_harga"].sum()
 
 df_kebijakan_terpilih = df_kebijakan_terpilih[df_kebijakan_terpilih["keterangan_pat"].isin(pabrik_terpilih)]
 
