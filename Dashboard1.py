@@ -164,7 +164,6 @@ with tab1:
         names="keterangan_pat",
         values="saldo_akhir_harga",
         title=f"Persediaan per Pabrik Tahun {tahun_terpilih} (Juta)",
-        hoverinfo='label+value',
         hole=0.4
     )
     fig_pie.update_layout(
@@ -178,6 +177,11 @@ with tab1:
         ),
         height=700,
         width=700
+    )
+    fig_pie.update_traces(
+        hovertemplate='%{label}<br>Jumlah: %{value}<br>Persen: %{percent}<extra></extra>',
+        textinfo='percent',
+        textposition='inside'
     )
 
     fig_bar = go.Figure()
