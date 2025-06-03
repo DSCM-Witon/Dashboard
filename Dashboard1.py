@@ -154,33 +154,29 @@ with col3:
     st.metric("Selisih vs KO Maksimal", f"{total_persediaan - total_ko_maks:,.2f}")
 
 
-#--- Visualisasi dalam Tab
 tab1, tab2 = st.tabs(["📈 Visualisasi", "🗃 Data Mentah"])
 
 with tab1:
-    # --- Pie Chart: Total Persediaan per Pabrik (filter hanya Tahun)
     fig_pie = px.pie(
         df_pie_chart1,
         names="keterangan_pat",
         values="saldo_akhir_harga",
         title=f"Persediaan per Pabrik Tahun {tahun_terpilih} (Juta)",
-        hole=0.4,
-        width=700,
-        height=700
+        hole=0.4
     )
     fig_pie.update_layout(
-    margin=dict(l=180, r=20, t=50, b=20),  # Tambah lebih besar agar pie tidak ketimpa
-    legend=dict(
-        orientation="v",
-        y=0.5,
-        yanchor="middle",
-        x=-0.6,               # Geser legend lebih ke kiri
-        xanchor="left"
-    )
+        margin=dict(l=180, r=20, t=50, b=20),
+        legend=dict(
+            orientation="v",
+            y=0.5,
+            yanchor="middle",
+            x=-0.6,
+            xanchor="left"
+        ),
+        height=700,
+        width=700
     )
 
-
-    # --- Bar Chart: Perbandingan KO vs Persediaan (Total per Tahun)
     fig_bar = go.Figure()
     fig_bar.add_trace(go.Bar(x=["KO Minimal"], y=[total_ko_min], name="KO Minimal", marker_color="red"))
     fig_bar.add_trace(go.Bar(x=["Persediaan"], y=[total_persediaan], name="Persediaan", marker_color="blue"))
@@ -192,16 +188,14 @@ with tab1:
         xaxis_title="Kategori",
         yaxis_title="Saldo Akhir Harga (Juta Rupiah)",
         template="plotly_white",
-        height=700
+        height=700,
+        width=700
     )
 
-   
     col1, col2 = st.columns(2)
-
-with col1:
-    st.plotly_chart(fig_pie, use_container_width=True)
-
-with col2:
-    st.plotly_chart(fig_bar, use_container_width=True)
+    with col1:
+        st.plotly_chart(fig_pie)  # tanpa use_container_width
+    with col2:
+        st.plotly_chart(fig_bar)  # tanpa use_container_width
 
 
