@@ -187,7 +187,7 @@ with tab1:
     fig_bar = go.Figure()
     fig_bar.add_trace(go.Bar(x=["KO Minimal"], y=[total_ko_min], name="KO Minimal", marker_color="red", text=[total_ko_min],textposition="outside"))
     fig_bar.add_trace(go.Bar(x=["Persediaan"], y=[total_persediaan], name="Persediaan", marker_color="blue", text=[total_persediaan],textposition="outside"))
-    fig_bar.add_trace(go.Bar(x=["KO Maksimal"], y=[total_ko_maks], name="KO Maksimal", marker_color="green", text=[total_ko_max],textposition="outside"))
+    fig_bar.add_trace(go.Bar(x=["KO Maksimal"], y=[total_ko_maks], name="KO Maksimal", marker_color="green", text=[total_ko_maks],textposition="outside"))
 
     fig_bar.update_layout(
         title=f"Perbandingan KO Minimal, Persediaan, dan KO Maksimal - {tahun_terpilih}",
@@ -198,7 +198,10 @@ with tab1:
         height=700,
         width=700,
         showlegend=False
+        uniformtext_minsize=8,
+        uniformtext_mode='show',
         )
+    fig_bar.update_yaxes(range=[0, max(total_ko_min, total_persediaan, total_ko_maks) * 1.2])
     if mode_mobile:
             # Vertikal untuk mobile
             st.plotly_chart(fig_pie.update_layout(height=400), use_container_width=True)
