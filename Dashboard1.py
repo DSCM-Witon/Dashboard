@@ -174,7 +174,7 @@ with tab1:
         orientation="v",
         y=0.5,
         yanchor="middle",
-        x=-0.9,               # Geser legend lebih ke kiri
+        x=-0.6,               # Geser legend lebih ke kiri
         xanchor="left"
     )
     )
