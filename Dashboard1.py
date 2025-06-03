@@ -34,6 +34,8 @@ with sqlite3.connect("KO2025.db") as conn_2025:
 # 6. Sidebar Filter
 st.sidebar.title("🔍 Filter")
 
+mode_mobile = st.sidebar.checkbox("Mode Mobile (simulasi)") # ini untuk tampilan hape
+
 # - - - Filter tahun
 tahun_terpilih = st.sidebar.selectbox(
     "Pilih Tahun", 
@@ -154,7 +156,7 @@ with col3:
     st.metric("Selisih vs KO Maksimal", f"{total_persediaan - total_ko_maks:,.2f}")
 
 
-tab1, tab2 = st.tabs(["📈 Visualisasi", "🗃 Data Mentah"])
+tab1, tab2 = st.tabs(["📈 Visualisasi"])
 
 with tab1:
     fig_pie = px.pie(
@@ -192,10 +194,15 @@ with tab1:
         width=700
     )
 
-    col1, col2 = st.columns(2)
-    with col1:
-        st.plotly_chart(fig_pie)  # tanpa use_container_width
-    with col2:
-        st.plotly_chart(fig_bar)  # tanpa use_container_width
-
+  if mode_mobile:
+        # Vertikal untuk mobile
+        st.plotly_chart(fig_pie.update_layout(height=400), use_container_width=True)
+        st.plotly_chart(fig_bar.update_layout(height=400), use_container_width=True)
+    else:
+        # Dua kolom untuk desktop
+        col1, col2 = st.columns(2)
+        with col1:
+            st.plotly_chart(fig_pie.update_layout(height=700), use_container_width=True)
+        with col2:
+            st.plotly_chart(fig_bar.update_layout(height=700), use_container_width=True)
 
