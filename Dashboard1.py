@@ -192,17 +192,16 @@ with tab1:
         template="plotly_white",
         height=700,
         width=700
-    )
-
-  if mode_mobile:
-        # Vertikal untuk mobile
-        st.plotly_chart(fig_pie.update_layout(height=400), use_container_width=True)
-        st.plotly_chart(fig_bar.update_layout(height=400), use_container_width=True)
-    else:
-        # Dua kolom untuk desktop
-        col1, col2 = st.columns(2)
-        with col1:
-            st.plotly_chart(fig_pie.update_layout(height=700), use_container_width=True)
-        with col2:
-            st.plotly_chart(fig_bar.update_layout(height=700), use_container_width=True)
+        )
+    if mode_mobile:
+            # Vertikal untuk mobile
+            st.plotly_chart(fig_pie.update_layout(height=400), use_container_width=True)
+            st.plotly_chart(fig_bar.update_layout(height=400), use_container_width=True)
+        else:
+            # Dua kolom untuk desktop
+            col1, col2 = st.columns(2)
+            with col1:
+                st.plotly_chart(fig_pie.update_layout(height=700), use_container_width=True)
+            with col2:
+                st.plotly_chart(fig_bar.update_layout(height=700), use_container_width=True)
 
