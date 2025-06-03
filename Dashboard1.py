@@ -156,7 +156,7 @@ with col3:
     st.metric("Selisih vs KO Maksimal", f"{total_persediaan - total_ko_maks:,.2f}")
 
 
-tab1, tab2 = st.tabs(["📈 Visualisasi"])
+tab1 = st.tabs(["📈 Visualisasi"])[0]
 
 with tab1:
     fig_pie = px.pie(
