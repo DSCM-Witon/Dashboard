@@ -185,9 +185,9 @@ with tab1:
     )
 
     fig_bar = go.Figure()
-    fig_bar.add_trace(go.Bar(x=["KO Minimal"], y=[total_ko_min], name="KO Minimal", marker_color="red", text=[total_ko_min],textposition="outside"))
-    fig_bar.add_trace(go.Bar(x=["Persediaan"], y=[total_persediaan], name="Persediaan", marker_color="blue", text=[total_persediaan],textposition="outside"))
-    fig_bar.add_trace(go.Bar(x=["KO Maksimal"], y=[total_ko_maks], name="KO Maksimal", marker_color="green", text=[total_ko_maks],textposition="outside"))
+    fig_bar.add_trace(go.Bar(x=["KO Minimal"], y=[total_ko_min], name="KO Minimal", marker_color="red", text=[total_ko_min],textposition="outside", texttemplate="%{text}"))
+    fig_bar.add_trace(go.Bar(x=["Persediaan"], y=[total_persediaan], name="Persediaan", marker_color="blue", text=[total_persediaan],textposition="outside", texttemplate="%{text}"))
+    fig_bar.add_trace(go.Bar(x=["KO Maksimal"], y=[total_ko_maks], name="KO Maksimal", marker_color="green", text=[total_ko_maks],textposition="outside", texttemplate="%{text}"))
 
     fig_bar.update_layout(
         title=f"Perbandingan KO Minimal, Persediaan, dan KO Maksimal - {tahun_terpilih}",
