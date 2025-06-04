@@ -161,55 +161,33 @@ with tab1:
         height=700,
         width=700
     )
-   # --- Pie Chart ---
-fig_pie.update_traces(
-    hovertemplate='%{label}<br>Jumlah: %{value}<br>Persen: %{percent}<extra></extra>',
-    textinfo='percent',
-    textposition='inside'
-)
-
-# --- Bar Chart: KO Minimal, Persediaan, KO Maksimal ---
-fig_bar = go.Figure()
-fig_bar.add_trace(go.Bar(x=["KO Minimal"], y=[total_ko_min], name="KO Minimal", marker_color="red", text=[total_ko_min], textposition="outside", texttemplate="%{text}"))
-fig_bar.add_trace(go.Bar(x=["Persediaan"], y=[total_persediaan], name="Persediaan", marker_color="blue", text=[total_persediaan], textposition="outside", texttemplate="%{text}"))
-fig_bar.add_trace(go.Bar(x=["KO Maksimal"], y=[total_ko_maks], name="KO Maksimal", marker_color="green", text=[total_ko_maks], textposition="outside", texttemplate="%{text}"))
-
-fig_bar.update_layout(
-    title=f"Perbandingan KO Minimal, Persediaan, dan KO Maksimal - {tahun_terpilih}",
-    barmode="group",
-    xaxis_title="Kategori",
-    yaxis_title="Saldo Akhir Harga (Juta Rupiah)",
-    template="plotly_white",
-    height=700,
-    width=700,
-    showlegend=False,
-    uniformtext_minsize=8,
-    uniformtext_mode='show',
-)
-fig_bar.update_yaxes(range=[0, max(total_ko_min, total_persediaan, total_ko_maks) * 1.2])
-
-# --- Bar Chart: Saldo Akhir Harga per Pabrik ---
-df_perpabrik["saldo_akhir_harga"] = df_perpabrik["saldo_akhir_harga"] / 1_000_000  # Convert ke juta
-
-if mode_mobile:
-    # Horizontal bar chart (mobile)
-    fig_perpabrik = px.bar(
-        df_perpabrik.sort_values("saldo_akhir_harga"),
-        x="saldo_akhir_harga",
-        y="kode_pat",
-        orientation="h",
-        text="saldo_akhir_harga",
-        title="Saldo Akhir Harga per Pabrik (Juta)",
-        color_discrete_sequence=["#EF553B"]
+    fig_pie.update_traces(
+        hovertemplate='%{label}<br>Jumlah: %{value}<br>Persen: %{percent}<extra></extra>',
+        textinfo='percent',
+        textposition='inside'
     )
-    fig_perpabrik.update_layout(
-        xaxis_title="Saldo Akhir Harga (Juta)",
-        yaxis_title="Kode PAT / Pabrik",
-        height=600,
-        margin=dict(l=80, r=20, t=50, b=40),
+    
+    # BAR CHART KO MIN, PERS, KO MAKS
+    fig_bar = go.Figure()
+    fig_bar.add_trace(go.Bar(x=["KO Minimal"], y=[total_ko_min], name="KO Minimal", marker_color="red", text=[total_ko_min],textposition="outside", texttemplate="%{text}"))
+    fig_bar.add_trace(go.Bar(x=["Persediaan"], y=[total_persediaan], name="Persediaan", marker_color="blue", text=[total_persediaan],textposition="outside", texttemplate="%{text}"))
+    fig_bar.add_trace(go.Bar(x=["KO Maksimal"], y=[total_ko_maks], name="KO Maksimal", marker_color="green", text=[total_ko_maks],textposition="outside", texttemplate="%{text}"))
+    
+    fig_bar.update_layout(
+        title=f"Perbandingan KO Minimal, Persediaan, dan KO Maksimal - {tahun_terpilih}",
+        barmode="group",
+        xaxis_title="Kategori",
+        yaxis_title="Saldo Akhir Harga (Juta Rupiah)",
+        template="plotly_white",
+        height=700,
+        width=700,
+        showlegend=False,
+        uniformtext_minsize=8,
+        uniformtext_mode='show',
     )
-else:
-    # Vertikal bar chart (desktop)
+    fig_bar.update_yaxes(range=[0, max(total_ko_min, total_persediaan, total_ko_maks) * 1.2])
+    
+    # BAR CHART PER PABRIK
     fig_perpabrik = px.bar(
         df_perpabrik.sort_values("saldo_akhir_harga", ascending=False),
         x="kode_pat",
@@ -218,24 +196,30 @@ else:
         title="Saldo Akhir Harga per Pabrik (Juta)",
         color_discrete_sequence=["#EF553B"]
     )
+    
     fig_perpabrik.update_layout(
         xaxis_title="Kode PAT / Pabrik",
         yaxis_title="Saldo Akhir Harga (Juta)",
         height=500,
         margin=dict(l=40, r=20, t=50, b=40),
     )
-
-fig_perpabrik.update_traces(texttemplate='%{text:.2f}', textposition='outside')
-
-# --- Tampilkan Chart ---
-if mode_mobile:
-    st.plotly_chart(fig_pie.update_layout(height=400), use_container_width=True)
-    st.plotly_chart(fig_bar.update_layout(height=400), use_container_width=True)
-    st.plotly_chart(fig_perpabrik.update_layout(height=400), use_container_width=True)
-else:
-    col1, col2 = st.columns(2)
-    with col1:
-        st.plotly_chart(fig_pie, use_container_width=True)
-        st.plotly_chart(fig_perpabrik, use_container_width=True)
-    with col2:
-        st.plotly_chart(fig_bar, use_container_width=True)
+    fig_perpabrik.update_traces(texttemplate='%{text:.2f}', textposition='outside')
+    
+    # RESPONSIF
+    if mode_mobile:
+        st.plotly_chart(fig_pie.update_layout(height=400), use_container_width=True)
+        st.plotly_chart(fig_bar.update_layout(height=400), use_container_width=True)
+        st.plotly_chart(fig_perpabrik.update_layout(height=400), use_container_width=True)
+    else:
+        tab1, tab2 = st.tabs(["Ringkasan KO", "Rincian per Pabrik"])
+        
+        with tab1:
+            col1, col2 = st.columns(2)
+            with col1:
+                st.plotly_chart(fig_pie, use_container_width=True)
+            with col2:
+                st.plotly_chart(fig_bar, use_container_width=True)
+    
+        with tab2:
+            st.plotly_chart(fig_perpabrik, use_container_width=True)
+    
