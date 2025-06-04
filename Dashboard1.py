@@ -167,12 +167,35 @@ with tab1:
         textposition='inside'
     )
     
-    # BAR CHART KO MIN, PERS, KO MAKS
+       # --- Buat bar chart KO minimal, persediaan, KO maksimal ---
     fig_bar = go.Figure()
-    fig_bar.add_trace(go.Bar(x=["KO Minimal"], y=[total_ko_min], name="KO Minimal", marker_color="red", text=[total_ko_min],textposition="outside", texttemplate="%{text}"))
-    fig_bar.add_trace(go.Bar(x=["Persediaan"], y=[total_persediaan], name="Persediaan", marker_color="blue", text=[total_persediaan],textposition="outside", texttemplate="%{text}"))
-    fig_bar.add_trace(go.Bar(x=["KO Maksimal"], y=[total_ko_maks], name="KO Maksimal", marker_color="green", text=[total_ko_maks],textposition="outside", texttemplate="%{text}"))
-    
+    fig_bar.add_trace(go.Bar(
+        x=["KO Minimal"],
+        y=[total_ko_min],
+        name="KO Minimal",
+        marker_color="red",
+        text=[total_ko_min],
+        textposition="outside",
+        texttemplate="%{text}"
+    ))
+    fig_bar.add_trace(go.Bar(
+        x=["Persediaan"],
+        y=[total_persediaan],
+        name="Persediaan",
+        marker_color="blue",
+        text=[total_persediaan],
+        textposition="outside",
+        texttemplate="%{text}"
+    ))
+    fig_bar.add_trace(go.Bar(
+        x=["KO Maksimal"],
+        y=[total_ko_maks],
+        name="KO Maksimal",
+        marker_color="green",
+        text=[total_ko_maks],
+        textposition="outside",
+        texttemplate="%{text}"
+    ))
     fig_bar.update_layout(
         title=f"Perbandingan KO Minimal, Persediaan, dan KO Maksimal - {tahun_terpilih}",
         barmode="group",
@@ -187,8 +210,7 @@ with tab1:
     )
     fig_bar.update_yaxes(range=[0, max(total_ko_min, total_persediaan, total_ko_maks) * 1.2])
     
-with tab2:    
-    # BAR CHART PER PABRIK
+    # --- Buat bar chart per pabrik ---
     fig_perpabrik = px.bar(
         df_perpabrik.sort_values("saldo_akhir_harga", ascending=False),
         x="kode_pat",
@@ -197,7 +219,6 @@ with tab2:
         title="Saldo Akhir Harga per Pabrik (Juta)",
         color_discrete_sequence=["#EF553B"]
     )
-    
     fig_perpabrik.update_layout(
         xaxis_title="Kode PAT / Pabrik",
         yaxis_title="Saldo Akhir Harga (Juta)",
@@ -206,14 +227,16 @@ with tab2:
     )
     fig_perpabrik.update_traces(texttemplate='%{text:.2f}', textposition='outside')
     
-    # RESPONSIF
+    # --- Buat tabs ---
+    tab1, tab2 = st.tabs(["📈 Visualisasi", "🏭 Rincian Per Pabrik"])
+    
     if mode_mobile:
+        # Mobile: tampilkan semua chart vertikal (tidak pakai tab)
         st.plotly_chart(fig_pie.update_layout(height=400), use_container_width=True)
         st.plotly_chart(fig_bar.update_layout(height=400), use_container_width=True)
         st.plotly_chart(fig_perpabrik.update_layout(height=400), use_container_width=True)
     else:
-        tab1, tab2 = st.tabs(["Ringkasan KO", "Rincian per Pabrik"])
-        
+        # Desktop: pakai tab
         with tab1:
             col1, col2 = st.columns(2)
             with col1:
@@ -223,4 +246,3 @@ with tab2:
     
         with tab2:
             st.plotly_chart(fig_perpabrik, use_container_width=True)
-    
