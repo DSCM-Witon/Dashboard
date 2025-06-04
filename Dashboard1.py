@@ -139,7 +139,7 @@ with col3:
     st.metric("Selisih vs KO Maksimal", f"{total_persediaan - total_ko_maks:,.2f}")
 
 
-tab1 = st.tabs(["📈 Visualisasi"])[0]
+tab1, tab2 = st.tabs(["📈 Visualisasi", "🏭 Rincian Per Pabrik"])
 
 with tab1:
     fig_pie = px.pie(
@@ -187,6 +187,7 @@ with tab1:
     )
     fig_bar.update_yaxes(range=[0, max(total_ko_min, total_persediaan, total_ko_maks) * 1.2])
     
+with tab2:    
     # BAR CHART PER PABRIK
     fig_perpabrik = px.bar(
         df_perpabrik.sort_values("saldo_akhir_harga", ascending=False),
