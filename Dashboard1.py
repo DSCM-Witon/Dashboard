@@ -86,7 +86,7 @@ total_ko_min_tahun = df_kebijakan_tahun["ko_minimal"].sum() #/ 1_000_000
 total_ko_maks_tahun = df_kebijakan_tahun["ko_maksimal"].sum() #/ 1_000_000
 
 # --- untuk Chart 3: Rincian Saldo Akhir Harga per Pabrik
-df_perpabrik = data_akhir_minggu.groupby("kode_pat", as_index=False)["saldo_akhir_harga"].sum()
+df_perpabrik = data_akhir_minggu.groupby("keterangan_pat", as_index=False)["saldo_akhir_harga"].sum()
 df_perpabrik["saldo_akhir_harga"] = df_perpabrik["saldo_akhir_harga"] / 1_000_000  # Konversi ke juta
 
 
@@ -213,7 +213,7 @@ with tab1:
     # --- Buat bar chart per pabrik ---
     fig_perpabrik = px.bar(
         df_perpabrik.sort_values("saldo_akhir_harga", ascending=False),
-        x="kode_pat",
+        x="keterangan_pat",
         y="saldo_akhir_harga",
         text="saldo_akhir_harga",
         title="Saldo Akhir Harga per Pabrik (Juta)",
@@ -226,9 +226,6 @@ with tab1:
         margin=dict(l=40, r=20, t=50, b=40),
     )
     fig_perpabrik.update_traces(texttemplate='%{text:.2f}', textposition='outside')
-    
-    # --- Buat tabs ---
-    tab1, tab2 = st.tabs(["📈 Visualisasi", "🏭 Rincian Per Pabrik"])
     
     if mode_mobile:
         # Mobile: tampilkan semua chart vertikal (tidak pakai tab)
